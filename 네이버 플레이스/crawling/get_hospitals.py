@@ -1,19 +1,25 @@
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+import web
 
 # 현재 페이지 내 모든 병원 리스트에 저장하는 함수
 def get_hospital_list(driver, hospital_kind):
-    url = "https://m.place.naver.com/place/list?level=top&entry=pll&x=null&y=null&query=" + hospital_kind
-    driver.get(url)
-    do_scroll(driver)
+    web.start()
+    driver = web.driver
+    try:
+        url = "https://m.place.naver.com/place/list?level=top&entry=pll&x=null&y=null&query=" + hospital_kind
+        driver.get(url)
+        do_scroll(driver)
 
-    data = []
+        data = []
 
-    elements  = driver.find_elements(By.CLASS_NAME, "place_bluelink")
+        elements  = driver.find_elements(By.CLASS_NAME, "place_bluelink")
 
-    for element in elements:
-        data.append(element.text)
+        for element in elements:
+            data.append(element.text)
+    finally:
+        driver.quit()
 
     return data
 
