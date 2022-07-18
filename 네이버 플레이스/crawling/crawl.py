@@ -1,5 +1,71 @@
 from selenium.webdriver.common.by import By
 import time
+from bs4 import BeautifulSoup
+
+def naver_place_crawl(driver, hospital):
+    url = 'https://m.place.naver.com/place/list?level=top&entry=pll&x=null&y=null&query=' + hospital
+    driver. get(url)
+    time.sleep(1)
+    
+    hospitalUrl = driver.find_element(By.CLASS_NAME, '_3LMxZ')
+    hospitalCode = hospitalUrl.get_attribute('href').split('/')[-1].split('?')[0]
+    reviewUrl = 'https://pcmap.place.naver.com/hospital/' + hospitalCode + '/review/visitor'
+    driver.get(reviewUrl)
+    time.sleep(1)
+    
+    try:
+        while True:
+            moreButton = driver.find_element(By.CLASS_NAME, '_2kAri')
+            moreButton.click()
+            time.sleep(0.5)
+    except:
+        print('페이지 스크롤 끝')
+        pass
+
+    try:
+        commentMoreBtn = driver.find_elements(By.CLASS_NAME, '_3_09q')
+        for btn in commentMoreBtn:
+            driver.execute_script('arguments[0].click();', btn)
+            # btn.click()
+    except:
+        print('더보기 없음')
+        pass
+    
+    
+    html = driver.page_source
+    soup = BeautifulSoup(html,'html.parser')
+
+    result = []
+    try:
+        contents = soup.find_all('li', class_='_3l2Wz')
+
+        for content in contents:
+            try:
+                review = content.find('span', class_='WoYOw').text
+
+                if len(review) < 10:
+                    continue
+
+                date = content.find_all('span', class_='place_blind')[0].text
+                if date == '최근 방문일':
+                    date = content.find_all('span', class_='place_blind')[1].text
+                elif date == '별점':
+                    date = content.find_all('span', class_='place_blind')[2].text
+                elif date == '방문자리뷰':
+                    date = content.find_all('span', class_='place_blind')[3].text
+
+                data = {
+                    'review': review,
+                    'date': date
+                }
+                result.append(data)
+            except:
+                pass
+    except Exception as e:
+        print(e)
+        
+    return result
+
 
 def naver_place_review(driver, hospital):
     try:
