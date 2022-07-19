@@ -1,6 +1,7 @@
 from crawl import *
 import pandas as pd
 from tqdm import tqdm
+import xlsxwriter
 
 
 def get_data(driver, hospital_kind, hospital_list):
@@ -26,4 +27,4 @@ def get_data(driver, hospital_kind, hospital_list):
             pass
 
 
-    df.to_excel(f'크롤링 결과/네이버({hospital_kind}).xlsx', sheet_name = hospital_kind)
+    df.to_excel(f'크롤링 결과/네이버({hospital_kind}).xlsx', sheet_name = hospital_kind, engine='xlsxwriter')

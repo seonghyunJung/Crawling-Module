@@ -41,23 +41,35 @@ def naver_place_crawl(driver, hospital):
 
         result = []
         try:
-            contents = soup.find_all('li', class_='_3l2Wz')
+            contents = soup.select("li._3l2Wz")
 
             for content in contents:
                 try:
-                    review = content.find('span', class_='WoYOw').text
+                    review = content.select_one('span.WoYOw').text
 
                     if len(review) < 10:
                         continue
 
-                    date = content.find_all('span', class_='place_blind')[0].text
-                    if date == '최근 방문일':
-                        date = content.find_all('span', class_='place_blind')[1].text
-                    elif date == '별점':
-                        date = content.find_all('span', class_='place_blind')[2].text
-                    elif date == '방문자리뷰':
-                        date = content.find_all('span', class_='place_blind')[3].text
+                    date = content.select_one("div._29Yga").select("span.place_blind")[1].text
 
+                    if date == "최근 방문일":
+                        date = content.select_one("div._29Yga").select("span.place_blind")[2].text
+                        
+                    # date = content.find_all('span', class_='place_blind')[0].text
+                    # if date == '최근 방문일':
+                    #     date = content.find_all('span', class_='place_blind')[1].text
+                    # elif date == '별점':
+                    #     date = content.find_all('span', class_='place_blind')[2].text
+                    # elif date == '방문자리뷰':
+                    #     date = content.find_all('span', class_='place_blind')[3].text
+                    # elif date == '이전':
+                    #     date = content.find_all('span', class_='place_blind')[4].text
+                    # elif date == '다음':
+                    #     date = content.find_all('span', class_='place_blind')[5].text
+
+                    # if date not in '2':
+                    #     continue
+                        
                     data = {
                         'review': review,
                         'date': date
