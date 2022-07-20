@@ -5,8 +5,8 @@ import re
 def do_preprocess(file_name):
     df = pd.read_excel(file_name + ".xlsx")
     not_using_text_list = ["한줄평", "병원리뷰"]
-    
-    
+
+
     for i in range(len(df)):
         temp = df.loc[i, '리뷰']
         
@@ -121,6 +121,7 @@ def add_last_point(text):
     text = ' '.join(words)
     
     return text
+
 
 
 
