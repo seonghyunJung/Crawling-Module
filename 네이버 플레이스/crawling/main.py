@@ -20,15 +20,13 @@ def main():
     logger.info('Script started.')
     config.init_web()
 
-    
-
     web.start()
     driver = web.driver
     driver.get('https://www.google.com')
-    time.sleep(1)
+    # time.sleep(1)
 
     # 병원 분과 종류
-    hospital_kind_list = ['피부과', '성형외과', '산부인과', '정신건강의학과', '비뇨기과','재활의학과', '외과', '소아과', '가정의학과', '한의원', '요양병원']
+    hospital_kind_list = ['가정의학과', '한의원', '요양병원']
 
     # hospital_kind_list = ['가정의학과']
     # hospital_list = {}

@@ -19,7 +19,9 @@ def start(headless=True):
     global driver
 
     if not headless:
-        driver = webdriver.Chrome()
+        chrome_options = Options()
+        chrome_options.add_argument('--blink-settings=imagesEnabled=false') #브라우저에서 이미지 로딩을 하지 않습니다.
+        driver = webdriver.Chrome(options=chrome_options)
     elif config.headless:
         chrome_options = Options()
         chrome_options.add_argument("--headless")
@@ -29,7 +31,9 @@ def start(headless=True):
             chrome_options=chrome_options
         )
     else:
-        driver = webdriver.Chrome()
+        chrome_options = Options()
+        chrome_options.add_argument('--blink-settings=imagesEnabled=false') #브라우저에서 이미지 로딩을 하지 않습니다.
+        driver = webdriver.Chrome(options=chrome_options)
 
     driver.implicitly_wait(10)
     logger.info('Selenium started')

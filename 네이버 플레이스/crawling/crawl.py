@@ -3,25 +3,27 @@ import time
 from bs4 import BeautifulSoup
 import web
 
+
+
 def naver_place_crawl(driver, hospital):
     web.start()
     driver = web.driver
     try:
         url = 'https://m.place.naver.com/place/list?level=top&entry=pll&x=null&y=null&query=' + hospital
         driver. get(url)
-        time.sleep(1)
+        # time.sleep(1)
         
         hospitalUrl = driver.find_element(By.CLASS_NAME, '_3LMxZ')
         hospitalCode = hospitalUrl.get_attribute('href').split('/')[-1].split('?')[0]
         reviewUrl = 'https://pcmap.place.naver.com/hospital/' + hospitalCode + '/review/visitor'
         driver.get(reviewUrl)
-        time.sleep(1)
+        # time.sleep(1)
         
         try:
             while True:
                 moreButton = driver.find_element(By.CLASS_NAME, '_2kAri')
                 moreButton.click()
-                time.sleep(1)
+                # time.sleep(1)
         except:
             print('페이지 스크롤 끝')
             pass
