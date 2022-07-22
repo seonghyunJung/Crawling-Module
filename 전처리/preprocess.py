@@ -3,7 +3,8 @@ import re
 
 # 엑셀 파일 리뷰 부분 전처리하는 함수(.xlsx 제외하고 입력)
 def do_preprocess(file_name):
-    df = pd.read_excel(file_name + ".xlsx")
+    # df = pd.read_excel(file_name + ".xlsx")
+    df = pd.read_excel(f"네이버 플레이스 리뷰 원본/{file_name}.xlsx")
     not_using_text_list = ["한줄평", "병원리뷰"]
 
 
@@ -29,7 +30,8 @@ def do_preprocess(file_name):
     # 중복 문장 제거
     df.drop_duplicates(subset = ['리뷰'], inplace = True, keep = 'first', ignore_index=True)
     df.drop('Unnamed: 0',axis=1,inplace=True)
-    df.to_excel(file_name + "전처리" + ".xlsx")
+    # df.to_excel(file_name + "전처리" + ".xlsx")
+    df.to_excel(f"네이버 플레이스 리뷰 전처리완료/{file_name}전처리.xlsx", sheet_name = file_name, engine='xlsxwriter')
 
     
 # 텍스트 전처리하는 함수
@@ -59,6 +61,7 @@ def remove_text(original_text, not_using_text):
 def change_last(text):
 #     slang_last_word = ["어용", "아용", "에용", "나용", "니당", "예용", "는당", "게용", "는뎅", "구용", "네용", "세용", "해용", "가봐용", "어욥", "께용", "워용"]
     text = text.replace('어용', '어요')
+    text = text.replace('어오', '어요')
     text = text.replace('어여', '어요')
     text = text.replace('아용', '아요')
     text = text.replace('아여', '아요')

@@ -23,7 +23,7 @@ def naver_place_crawl(driver, hospital):
             while True:
                 moreButton = driver.find_element(By.CLASS_NAME, '_2kAri')
                 moreButton.click()
-                # time.sleep(1)
+                time.sleep(1)
         except:
             print('페이지 스크롤 끝')
             pass
